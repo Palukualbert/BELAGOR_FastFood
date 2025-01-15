@@ -104,7 +104,7 @@
                     <div class="col-lg-6 text-center text-lg-start">
                         <h1 class="display-3 text-white animated slideInLeft">Le Goût<br> qui Vient à Vous !</h1>
                         <p class="text-white animated slideInLeft mb-4 pb-2"> Savourez des plats délicieux où que vous soyez ! Burgers gourmands, frites dorées et bien plus, préparés avec des ingrédients frais. Sur place, à emporter ou en livraison rapide, profitez d’un moment gourmand en toute simplicité.</p>
-                        <a href="menu.html" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Consulter Menu</a>
+                        <a href="/menu" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Consulter Menu</a>
                     </div>
                     <!-- Section plateaux -->
                     <div class="col-lg-6 text-center text-lg-end overflow-hidden d-flex flex-column align-items-center">

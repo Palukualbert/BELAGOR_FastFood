@@ -294,10 +294,10 @@
                 <div class="row g-5 justify-content-center">
                     <div class="col-lg-3 col-md-6">
                         <h4 class="section-title ff-secondary text-primary fw-normal mb-4">Pages</h4>
-                        <a class="btn btn-link" href="about.html">A propos</a>
-                        <a class="btn btn-link" href="contact.html">Contact</a>
-                        <a class="btn btn-link" href="menu.html">Menu</a>
-                        <a class="btn btn-link" href="service.html">Service</a>
+                        <a class="btn btn-link" href="/about">A propos</a>
+                        <a class="btn btn-link" href="/contact">Contact</a>
+                        <a class="btn btn-link" href="/menu">Menu</a>
+                        <a class="btn btn-link" href="/service">Service</a>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <h4 class="section-title ff-secondary text-primary fw-normal mb-4">Contact</h4>

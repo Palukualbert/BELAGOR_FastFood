@@ -89,7 +89,7 @@
                     <h1 class="display-3 text-white mb-3 animated slideInDown">Service</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center text-uppercase">
-                            <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+                            <li class="breadcrumb-item"><a href="/">Accueil</a></li>
                             <li class="breadcrumb-item"><a href="about.html">A propos</a></li>
                             <li class="breadcrumb-item text-white active" aria-current="page">Service</li>
                         </ol>
@@ -146,10 +146,10 @@
                 <div class="row g-5 justify-content-center">
                     <div class="col-lg-3 col-md-6">
                         <h4 class="section-title ff-secondary text-primary fw-normal mb-4">Pages</h4>
-                        <a class="btn btn-link" href="about.html">A propos</a>
-                        <a class="btn btn-link" href="contact.html">Contact</a>
-                        <a class="btn btn-link" href="menu.html">Menu</a>
-                        <a class="btn btn-link" href="service.html">Service</a>
+                        <a class="btn btn-link" href="/about">A propos</a>
+                        <a class="btn btn-link" href="/contact">Contact</a>
+                        <a class="btn btn-link" href="/menu">Menu</a>
+                        <a class="btn btn-link" href="/service">Service</a>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <h4 class="section-title ff-secondary text-primary fw-normal mb-4">Contact</h4>
