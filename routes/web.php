@@ -14,9 +14,7 @@ Route::get('/contact', function (){
     return view('contact');
 })->name('contact');
 
-Route::get('/menu', function (){
-    return view('menu');
-})->name('menu');
+Route::get('/menu',[\App\Http\Controllers\RepasController::class,'index'])->name('menu');
 Route::get('service',function(){
     return view('service');
 })->name('service');
