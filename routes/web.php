@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,3 +33,9 @@ Route::get('auth/google', [AuthController::class, 'redirect'])->name('auth.googl
 Route::get('auth/google/callback', [AuthController::class, 'callback']);
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+/*----------------------------------------- PARTIE ADMINISTRATEUR -----------------------------------------*/
+
+Route::prefix('admin')->group(function(){
+    Route::get('/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+});
