@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Repas;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class RepasController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index():View
     {
         $repas = Repas::all();
-        dd($repas);
+        return View('menu', compact('repas'));
     }
 
     /**

@@ -11,16 +11,21 @@
             <a href="{{route("about")}}" class="nav-item nav-link {{ Route::currentRouteName() === 'about' ? 'active' : ''}} ">A propos</a>
             <a href="{{route("service")}}" class="nav-item nav-link {{ Route::currentRouteName() === 'service' ? 'active' : '' }}">Service</a>
             <a href="{{route("menu")}}" class="nav-item nav-link {{ Route::currentRouteName() === 'menu' ? 'active' : '' }}">Menu</a>
-            <!--
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                <div class="dropdown-menu m-0">
-                    <a href="booking.html" class="dropdown-item">Booking</a>
-                    <a href="team.html" class="dropdown-item">Our Team</a>
-                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                </div>
-            </div>-->
+
             <a href="{{route("contact")}}" class="nav-item nav-link">Contact</a>
-        </div>
+            @guest()
+                <a href="{{route('signin')}}" class="nav-item nav-link {{ Route::currentRouteName() === 'connexion' ? 'active' : '' }}">Connexion</a>
+            @endguest
+
+            @auth()
+            <div class="nav-item dropdown">
+                <a href="" class="dropdown-toggle nav-link ">Mon compte</a>
+                <div class="dropdown-menu m-0">
+                        <a href="#" class="dropdown-item">Tableau de bord</a>
+                        <a href="{{route('logout')}}" class="dropdown-item">Deconnexion</a>
+                    </div>
+            </div>
+            @endauth
+            </div>
     </div>
 </nav>
