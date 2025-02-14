@@ -90,7 +90,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center text-uppercase">
                             <li class="breadcrumb-item"><a href="/">Accueil</a></li>
-                            <li class="breadcrumb-item"><a href="about.html">A propos</a></li>
+                            <li class="breadcrumb-item"><a href="about.blade.php">A propos</a></li>
                             <li class="breadcrumb-item text-white active" aria-current="page">Service</li>
                         </ol>
                     </nav>

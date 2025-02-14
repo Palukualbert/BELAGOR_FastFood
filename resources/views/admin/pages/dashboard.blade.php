@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="{{asset('admin/dist/all.css')}} ">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 @endsection
 @section('title')
 @endsection
@@ -126,274 +128,78 @@
                 </aside>
                 <!--/Sidebar-->
                 <!--Main-->
+                <!-- Main Content -->
                 <main class="bg-white-300 flex-1 p-3 overflow-hidden">
+                    <div class="container mx-auto">
+                        <h2 class="text-2xl font-bold mb-4 text-center">Gestion des repas</h2>
 
-                    <div class="flex flex-col">
-                        <!-- Stats Row Starts Here -->
-                        <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
-                            <div class="shadow-lg bg-red-vibrant border-l-8 hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
-                                <div class="p-4 flex flex-col">
-                                    <a href="#" class="no-underline text-white text-2xl">
-                                        $244
-                                    </a>
-                                    <a href="#" class="no-underline text-white text-lg">
-                                        Total Sales
-                                    </a>
-                                </div>
+                        <a href="{{ route('admin.add') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-3">
+                            <i class="fas fa-plus"></i> Ajouter un repas
+                        </a>
+
+                        @if(session('success'))
+                            <div class="bg-green-500 text-white p-2 mt-4 text-center">
+                                {{ session('success') }}
                             </div>
+                        @endif
 
-                            <div class="shadow bg-info border-l-8 hover:bg-info-dark border-info-dark mb-2 p-2 md:w-1/4 mx-2">
-                                <div class="p-4 flex flex-col">
-                                    <a href="#" class="no-underline text-white text-2xl">
-                                        $199.4
-                                    </a>
-                                    <a href="#" class="no-underline text-white text-lg">
-                                        Total Cost
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="overflow-x-auto mt-4">
+                            <table class="table-auto w-full bg-white shadow-md rounded-lg">
+                                <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <tr>
+                                    <th class="py-3 px-6 text-left">Nom</th>
+                                    <th class="py-3 px-6 text-left">Prix</th>
+                                    <th class="py-3 px-6 text-left">Image</th>
+                                    <th class="py-3 px-6 text-left">Catégorie</th>
+                                    <th class="py-3 px-6 text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-gray-600 text-sm font-light">
+                                @foreach ($repas as $meal)
+                                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                        <td class="py-3 px-6 text-left">{{ $meal->nom }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $meal->prix }}$</td>
+                                        <td class="py-3 px-6 text-left">
+                                            @if ($meal->image)
+                                                <img src="{{ asset($meal->image) }}" alt="{{ $meal->nom }}" class="img-fluid rounded" style="width: 80px; height: 80px;">
+                                            @endif
+                                        </td>
+                                        <td class="py-3 px-6 text-left">{{ $meal->categorie }}</td>
+                                        <td class="py-3 px-6 text-center">
+                                            <!-- Bouton Modifier -->
+                                            <a href="{{ route('admin.edit', $meal->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded inline-flex items-center">
+                                                <i class="fas fa-edit fa-2x"></i> Modifier
+                                            </a>
 
-                            <div class="shadow bg-warning border-l-8 hover:bg-warning-dark border-warning-dark mb-2 p-2 md:w-1/4 mx-2">
-                                <div class="p-4 flex flex-col">
-                                    <a href="#" class="no-underline text-white text-2xl">
-                                        900
-                                    </a>
-                                    <a href="#" class="no-underline text-white text-lg">
-                                        Total Users
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="shadow bg-success border-l-8 hover:bg-success-dark border-success-dark mb-2 p-2 md:w-1/4 mx-2">
-                                <div class="p-4 flex flex-col">
-                                    <a href="#" class="no-underline text-white text-2xl">
-                                        500
-                                    </a>
-                                    <a href="#" class="no-underline text-white text-lg">
-                                        Total Products
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- /Stats Row Ends Here -->
-
-                        <!-- Card Sextion Starts Here -->
-                        <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
-
-                            <!-- card -->
-
-                            <div class="rounded overflow-hidden shadow bg-white mx-2 w-full">
-                                <div class="px-6 py-2 border-b border-light-grey">
-                                    <div class="font-bold text-xl">Trending Categories</div>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table text-grey-darkest">
-                                        <thead class="bg-grey-dark text-white text-normal">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Item</th>
-                                            <th scope="col">Last</th>
-                                            <th scope="col">Current</th>
-                                            <th scope="col">Change</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>
-                                                <button class="bg-blue-500 hover:bg-blue-800 text-white font-light py-1 px-2 rounded-full">
-                                                    Twitter
+                                            <!-- Formulaire de suppression -->
+                                            <form action="{{ route('admin.destroy', $meal->id) }}" method="POST" class="inline ml-2">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded inline-flex items-center">
+                                                    <i class="fas fa-trash fa-2x"></i> Supprimer
                                                 </button>
-                                            </td>
-                                            <td>4500</td>
-                                            <td>4600</td>
-                                            <td>
-                                                <span class="text-green-500"><i class="fas fa-arrow-up"></i>5%</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>
-                                                <button class="bg-primary hover:bg-primary-dark text-white font-light py-1 px-2 rounded-full">
-                                                    Facebook
-                                                </button>
-                                            </td>
-                                            <td>10000</td>
-                                            <td>3000</td>
-                                            <td>
-                                                <span class="text-red-500"><i class="fas fa-arrow-down"></i>65%</span>
-                                            </td>
-                                        </tr>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
 
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>
-                                                <button class="bg-success hover:bg-success-dark text-white font-light py-1 px-2 rounded-full">
-                                                    Amazon
-                                                </button>
-                                            </td>
-                                            <td>10000</td>
-                                            <td>3000</td>
-                                            <td>
-                                                <span class="text-red-500"><i class="fas fa-arrow-down"></i>65%</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>
-                                                <button class="bg-blue-500 hover:bg-blue-800 text-white font-light py-1 px-2 rounded-full">
-                                                    Microsoft
-                                                </button>
-                                            </td>
-                                            <td>10000</td>
-                                            <td>3000</td>
-                                            <td>
-                                                <span class="text-green-500"><i class="fas fa-arrow-up"></i>65%</span>
-                                            </td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- /card -->
-
+                            </table>
                         </div>
-                        <!-- /Cards Section Ends Here -->
-
-                        <!-- Progress Bar -->
-                        <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2 mt-2">
-                            <div class="rounded overflow-hidden shadow bg-white mx-2 w-full pt-2">
-                                <div class="px-6 py-2 border-b border-light-grey">
-                                    <div class="font-bold text-xl">Progress Among Projects</div>
-                                </div>
-                                <div class="">
-                                    <div class="w-full">
-
-                                        <div class="shadow w-full bg-grey-light">
-                                            <div class="bg-blue-500 text-xs leading-none py-1 text-center text-white"
-                                                 style="width: 45%">45%
-                                            </div>
-                                        </div>
-
-
-                                        <div class="shadow w-full bg-grey-light mt-2">
-                                            <div class="bg-teal-500 text-xs leading-none py-1 text-center text-white"
-                                                 style="width: 55%">55%
-                                            </div>
-                                        </div>
-
-
-                                        <div class="shadow w-full bg-grey-light mt-2">
-                                            <div class="bg-orange-500 text-xs leading-none py-1 text-center text-white"
-                                                 style="width: 65%">65%
-                                            </div>
-                                        </div>
-
-
-                                        <div class="shadow w-full bg-grey-300 mt-2">
-                                            <div class="bg-red-800 text-xs leading-none py-1 text-center text-white"
-                                                 style="width: 75%">75%
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Profile Tabs-->
-                        <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2 p-1 mt-2 mx-auto lg:mx-2 md:mx-2 justify-between">
-                            <!--Top user 1-->
-                            <div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3">
-                                <img src="https://i.imgur.com/w1Bdydo.jpg" alt="" class="w-full"/>
-                                <div class="flex justify-center -mt-8">
-                                    <img src="https://i.imgur.com/8Km9tLL.jpg" alt=""
-                                         class="rounded-full border-solid border-white border-2 -mt-3">
-                                </div>
-                                <div class="text-center px-3 pb-6 pt-2">
-                                    <h3 class="text-black text-sm bold font-sans">Olivia Dunham</h3>
-                                    <p class="mt-2 font-sans font-light text-grey-700">Hello, i'm from another the other
-                                        side!</p>
-                                </div>
-                                <div class="flex justify-center pb-3 text-grey-dark">
-                                    <div class="text-center mr-3 border-r pr-3">
-                                        <h2>34</h2>
-                                        <span>Photos</span>
-                                    </div>
-                                    <div class="text-center">
-                                        <h2>42</h2>
-                                        <span>Friends</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Top user 2-->
-                            <div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3">
-                                <img src="https://i.imgur.com/w1Bdydo.jpg" alt="" class="w-full"/>
-                                <div class="flex justify-center -mt-8">
-                                    <img src="https://i.imgur.com/8Km9tLL.jpg" alt=""
-                                         class="rounded-full border-solid border-white border-2 -mt-3">
-                                </div>
-                                <div class="text-center px-3 pb-6 pt-2">
-                                    <h3 class="text-black text-sm bold font-sans">Olivia Dunham</h3>
-                                    <p class="mt-2 font-sans font-light text-grey-dark">Hello, i'm from another the other
-                                        side!</p>
-                                </div>
-                                <div class="flex justify-center pb-3 text-grey-dark">
-                                    <div class="text-center mr-3 border-r pr-3">
-                                        <h2>34</h2>
-                                        <span>Photos</span>
-                                    </div>
-                                    <div class="text-center">
-                                        <h2>42</h2>
-                                        <span>Friends</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Top user 3-->
-                            <div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3">
-                                <img src="https://i.imgur.com/w1Bdydo.jpg" alt="" class="w-full"/>
-                                <div class="flex justify-center -mt-8">
-                                    <img src="https://i.imgur.com/8Km9tLL.jpg" alt=""
-                                         class="rounded-full border-solid border-white border-2 -mt-3">
-                                </div>
-                                <div class="text-center px-3 pb-6 pt-2">
-                                    <h3 class="text-black text-sm bold font-sans">Olivia Dunham</h3>
-                                    <p class="mt-2 font-sans font-light text-grey-dark">Hello, i'm from another the other
-                                        side!</p>
-                                </div>
-                                <div class="flex justify-center pb-3 text-grey-dark">
-                                    <div class="text-center mr-3 border-r pr-3">
-                                        <h2>34</h2>
-                                        <span>Photos</span>
-                                    </div>
-                                    <div class="text-center">
-                                        <h2>42</h2>
-                                        <span>Friends</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/Profile Tabs-->
                     </div>
                 </main>
-                <!--/Main-->
             </div>
-            <!--Footer-->
+
+            <!-- Footer -->
             <footer class="bg-grey-darkest text-white p-2">
-                <div class="flex flex-1 mx-auto">&copy; My Design</div>
-                <div class="flex flex-1 mx-auto">Distributed by:  <a href="https://themewagon.com/" target=" _blank">Themewagon</a></div>
+                <div class="flex flex-1 mx-auto">&copy; Belagor - Tous droits réservés.</div>
             </footer>
-            <!--/footer-->
-
         </div>
-
     </div>
 @endsection
 
 @section('scripts')
-    <script src=" {{asset('admin/main.js')}}"></script>
+    <script src="{{asset('admin/main.js')}}"></script>
 @endsection
-
 
 

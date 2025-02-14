@@ -33,9 +33,20 @@ Route::get('auth/google', [AuthController::class, 'redirect'])->name('auth.googl
 Route::get('auth/google/callback', [AuthController::class, 'callback']);
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/order/store', [\App\Http\Controllers\CommandeController::class, 'store'])->name('order.store');
 
 /*----------------------------------------- PARTIE ADMINISTRATEUR -----------------------------------------*/
 
 Route::prefix('admin')->group(function(){
-    Route::get('/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    Route::resource('repas', RepasController::class)->except(['show']);
+    Route::get('/add', [\App\Http\Controllers\RepasController::class, 'create'])->name('admin.add');
+    Route::post('/store', [\App\Http\Controllers\RepasController::class, 'store'])->name('admin.store');
+    Route::delete('/{repas}', [\App\Http\Controllers\RepasController::class, 'destroy'])->name('admin.destroy');
+
+    Route::get('/edit/{repas}', [\App\Http\Controllers\RepasController::class, 'edit'])->name('admin.edit');
+    Route::put('/{repas}', [\App\Http\Controllers\RepasController::class, 'update'])->name('admin.update');
 });
+
+
