@@ -2,6 +2,13 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommandeController;
+use App\Http\Controllers\PanierController;
+use App\Http\Controllers\PanierRepasController;
+use App\Http\Controllers\RepasController;
+use App\Models\PanierRepas;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +42,13 @@ Route::get('auth/google/callback', [AuthController::class, 'callback']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/order/store', [\App\Http\Controllers\CommandeController::class, 'store'])->name('order.store');
 
+Route::post('/ajouter-au-panier', [PanierRepasController::class, 'ajouterRepas']);
+
+Route::get('/mon-panier',[PanierController::class, 'index'])->name('monPanier');
+
+
+Route::post('/valider-commande', [CommandeController::class, 'store'])->name('commande.valider');
+
 /*----------------------------------------- PARTIE ADMINISTRATEUR -----------------------------------------*/
 
 Route::prefix('admin')->group(function(){
@@ -48,5 +62,6 @@ Route::prefix('admin')->group(function(){
     Route::get('/edit/{repas}', [\App\Http\Controllers\RepasController::class, 'edit'])->name('admin.edit');
     Route::put('/{repas}', [\App\Http\Controllers\RepasController::class, 'update'])->name('admin.update');
 });
+
 
 

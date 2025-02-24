@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Menu</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link href="{{ asset('img/favicon.ico') }}" rel="icon">
@@ -23,6 +24,7 @@
     <!-- Bootstrap & Custom CSS -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @livewireStyles
 
     <style>
         .footer {
@@ -68,7 +70,6 @@
                 <h5 class="section-title ff-secondary text-center text-primary fw-normal">Belagor Menu</h5>
                 <h1 class="mb-5">Découvrez nos repas</h1>
             </div>
-
             <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
                 <div class="d-flex justify-content-center">
                     <ul class="nav nav-pills">
@@ -85,7 +86,7 @@
                         @endforeach
                     </ul>
                 </div>
-
+        
                 <br>
                 <div class="tab-content">
                     @foreach (['Basic', 'Simple', 'Supérieur'] as $categorie)
@@ -94,7 +95,7 @@
                                 @php
                                     $repasFiltres = $repas->where('categorie', $categorie);
                                 @endphp
-
+            
                                 @forelse ($repasFiltres as $meal)
                                     <div class="col-lg-6">
                                         <div class="d-flex align-items-center p-3 border rounded">
@@ -103,56 +104,26 @@
                                                  alt="{{ $meal->nom }}"
                                                  style="width: 80px; height: 80px; cursor: pointer;"
                                                  data-bs-toggle="modal" data-bs-target="#orderModal{{ $meal->id }}">
-
+            
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2 align-items-center">
                                                     <span>{{ $meal->nom }}</span>
                                                     <span class="text-primary d-flex align-items-center">
-                                                    {{ $meal->prix }}$
-                                                    <button class="btn btn-sm btn-outline-primary ms-2 d-block d-sm-inline"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#orderModal{{ $meal->id }}">
-                                                        <i class="fas fa-shopping-cart"></i> <span class="d-none d-md-inline">Commander</span>
-                                                    </button>
-                                                </span>
+                                                            {{ $meal->prix }}$ 
+                                                            <button class="btn btn-primary add-to-cart" 
+                                                                    data-id="{{ $meal->id }}">
+                                                                <i class="fas fa-shopping-cart"></i> Ajoutfer au panier
+                                                            </button>
+                                                            
+                                                        </span>
                                                 </h5>
                                             </div>
                                         </div>
                                     </div>
-
+            
                                     <!-- Modal -->
-                                    <div class="modal fade" id="orderModal{{ $meal->id }}" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="orderModalLabel">Nom du Repas : {{ $meal->nom }}</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="" method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="meal_id" value="{{ $meal->id }}">
-
-                                                        <!-- Quantité -->
-                                                        <div class="mb-3">
-                                                            <label for="quantity-{{ $meal->id }}" class="form-label">Quantité</label>
-                                                            <input type="number" class="form-control" id="quantity-{{ $meal->id }}" name="quantity" placeholder="Entrez la quantité" min="1" required>
-                                                        </div>
-
-                                                        <!-- Adresse -->
-                                                        <div class="mb-3">
-                                                            <label for="address-{{ $meal->id }}" class="form-label">Adresse de livraison</label>
-                                                            <input type="text" class="form-control" id="address-{{ $meal->id }}" name="address" placeholder="Entrez votre adresse complète" required>
-                                                        </div>
-
-                                                        <!-- Bouton Commander -->
-                                                        <button type="submit" class="btn btn-warning w-100">Confirmer la commande</button>
-                                                    </form>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
+            
                                 @empty
                                     <p class="text-center text-muted">Aucun repas disponible pour la catégorie "{{ $categorie }}".</p>
                                 @endforelse
@@ -205,7 +176,7 @@
     </div>
     <!-- Footer End -->
 </div>
-
+@livewireScripts
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -220,6 +191,95 @@
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            let repasId = this.getAttribute('data-id');
+            let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+            fetch('/ajouter-au-panier', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({ repas_id: repasId, quantite: 1 })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector('.cart-count').innerText = data.cart_count;
+
+                    this.classList.remove('btn-primary');
+                    this.classList.add('btn-success');
+                    this.innerHTML = '<i class="fas fa-check"></i> Ajouté';
+
+                    setTimeout(() => {
+                        this.classList.remove('btn-success');
+                        this.classList.add('btn-primary');
+                        this.innerHTML = '<i class="fas fa-shopping-cart"></i> Ajouter au panier';
+                    }, 3000);
+                } else {
+                    
+
+                    this.classList.remove('btn-warning');
+                    this.classList.add('btn-success');
+                    this.innerHTML = '<i class="fas fa-check"></i> Existe déjà';
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+        });
+    });
+});
+
+
+</script>
+
+
+<!-- Panier -->
+
+<a href="{{route('monPanier')}}" class="cart-floating">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count">{{ $nombreRepasPanier }}</span>
+</a>
+<style>
+    .cart-floating {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #ff9900;
+        color: white;
+        font-size: 24px;
+        padding: 15px;
+        border-radius:none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease-in-out;
+        z-index: 1000;
+        text-decoration: none;
+    }
+
+    .cart-floating:hover {
+        background: #e68900;
+        transform: scale(1.1);
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: red;
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+</style>
 </body>
 </html>

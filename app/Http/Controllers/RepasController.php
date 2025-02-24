@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PanierRepas;
 use App\Models\Repas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -16,7 +20,26 @@ class RepasController extends Controller
     public function index(): View
     {
         $repas = Repas::all();
-        return view('menu', compact('repas'));
+    
+    // Récupérer le panier depuis la session (ou 0 si vide)
+    $nombreRepasPanier = Session::get('panier') ? count(Session::get('panier')) : 0;if (Auth::check()) { // Vérifier si l'utilisateur est connecté
+        $userId = Auth::id();
+
+        // Récupérer le panier actif (statut "en cours")
+        $panier = DB::table('paniers')
+                    ->where('user_id', $userId)
+                    ->where('statut', 'en cours')
+                    ->first();
+
+        if ($panier) {
+            // Calculer la somme des quantités des repas dans le panier
+            $nombreRepasPanier = DB::table('panier_repas')
+                                    ->where('panier_id', $panier->id)
+                                    ->sum('quantite');
+        }
+    }
+
+    return view('menu', compact('repas', 'nombreRepasPanier'));
     }
 
     /**
