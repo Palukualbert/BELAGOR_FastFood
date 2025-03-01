@@ -13,6 +13,8 @@ class Commande extends Model
         'repas',
         'latitude',
         'longitude',
+        'adresse',
+        'phone'
     ];
 
     protected $casts = [

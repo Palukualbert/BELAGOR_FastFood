@@ -3,6 +3,8 @@
 @section('links')
     <link rel="stylesheet" href="{{asset('admin/dist/styles.css')}}">
     <link rel="stylesheet" href="{{asset('admin/dist/all.css')}} ">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -19,23 +21,14 @@
                 <div class="flex justify-between">
                     <div class="p-1 mx-3 inline-flex items-center">
                         <i class="fas fa-bars pr-2 text-white" onclick="sidebarToggle()"></i>
-                        <h1 class="text-white p-2">Logo</h1>
+                        <a href="" class="navbar-brand p-0">
+                            <img class="rounded-circle" src="../img/LOGO_belegor.png" alt="Logo" width="10%">
+                        </a>
                     </div>
                     <div class="p-1 flex flex-row items-center">
-                        <a href="https://github.com/tailwindadmin/admin" class="text-white p-2 mr-2 no-underline hidden md:block lg:block">Github</a>
-
-
-                        <img onclick="profileToggle()" class="inline-block h-8 w-8 rounded-full" src="https://avatars0.githubusercontent.com/u/4323180?s=460&v=4" alt="">
-                        <a href="#" onclick="profileToggle()" class="text-white p-2 no-underline hidden md:block lg:block">Adam Wathan</a>
-                        <div id="ProfileDropDown" class="rounded hidden shadow-md bg-white absolute pin-t mt-12 mr-1 pin-r">
-                            <ul class="list-reset">
-                                <li><a href="#" class="no-underline px-4 py-2 block text-black hover:bg-grey-light">My account</a></li>
-                                <li><a href="#" class="no-underline px-4 py-2 block text-black hover:bg-grey-light">Notifications</a></li>
-                                <li><hr class="border-t mx-2 border-grey-ligght"></li>
-                                <li><a href="#" class="no-underline px-4 py-2 block text-black hover:bg-grey-light">Logout</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                        <a href="{{ route('signin') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-3">
+                            <i class="fas fa-sign-out-alt"></i> Se déconnecter
+                        </a>                    </div>
                 </div>
             </header>
             <!--/Header-->
@@ -46,87 +39,19 @@
 
                     <ul class="list-reset flex flex-col">
                         <li class=" w-full h-full py-3 px-2 border-b border-light-border bg-white">
-                            <a href="index.html"
+                            <a href=""
                                class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
                                 <i class="fas fa-tachometer-alt float-left mx-2"></i>
                                 Dashboard
                                 <span><i class="fas fa-angle-right float-right"></i></span>
                             </a>
-                        </li>
-                        <li class="w-full h-full py-3 px-2 border-b border-light-border">
-                            <a href="forms.html"
-                               class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                <i class="fab fa-wpforms float-left mx-2"></i>
-                                Forms
-                                <span><i class="fa fa-angle-right float-right"></i></span>
+                        <li class="py-3 px-4 border-b hover:bg-gray-200">
+                            <a href="/admin/commandes" class="flex items-center text-gray-700">
+                                <i class="fas fa-table mr-3"></i> Commandes
                             </a>
                         </li>
-                        <li class="w-full h-full py-3 px-2 border-b border-light-border">
-                            <a href="buttons.html"
-                               class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                <i class="fas fa-grip-horizontal float-left mx-2"></i>
-                                Buttons
-                                <span><i class="fa fa-angle-right float-right"></i></span>
-                            </a>
                         </li>
-                        <li class="w-full h-full py-3 px-2 border-b border-light-border">
-                            <a href="tables.html"
-                               class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                <i class="fas fa-table float-left mx-2"></i>
-                                Tables
-                                <span><i class="fa fa-angle-right float-right"></i></span>
-                            </a>
-                        </li>
-                        <li class="w-full h-full py-3 px-2 border-b border-light-border">
-                            <a href="ui.html"
-                               class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                <i class="fab fa-uikit float-left mx-2"></i>
-                                Ui components
-                                <span><i class="fa fa-angle-right float-right"></i></span>
-                            </a>
-                        </li>
-                        <li class="w-full h-full py-3 px-2 border-b border-300-border">
-                            <a href="modals.html" class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                <i class="fas fa-square-full float-left mx-2"></i>
-                                Modals
-                                <span><i class="fa fa-angle-right float-right"></i></span>
-                            </a>
-                        </li>
-                        <li class="w-full h-full py-3 px-2">
-                            <a href="#"
-                               class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                <i class="far fa-file float-left mx-2"></i>
-                                Pages
-                                <span><i class="fa fa-angle-down float-right"></i></span>
-                            </a>
-                            <ul class="list-reset -mx-2 bg-white-medium-dark">
-                                <li class="border-t mt-2 border-light-border w-full h-full px-2 py-3">
-                                    <a href="login.html"
-                                       class="mx-4 font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                        Login Page
-                                        <span><i class="fa fa-angle-right float-right"></i></span>
-                                    </a>
-                                </li>
-                                <li class="border-t border-light-border w-full h-full px-2 py-3">
-                                    <a href="register.html"
-                                       class="mx-4 font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                        Register Page
-                                        <span><i class="fa fa-angle-right float-right"></i></span>
-                                    </a>
-                                </li>
-                                <li class="border-t border-light-border w-full h-full px-2 py-3">
-                                    <a href="404.html"
-                                       class="mx-4 font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                        404 Page
-                                        <span><i class="fa fa-angle-right float-right"></i></span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                </aside>
-                <!--/Sidebar-->
+                </aside>                <!--/Sidebar-->
                 <!--Main-->
                 <!-- Main Content -->
                 <main class="bg-white-300 flex-1 p-3 overflow-hidden">
@@ -154,45 +79,55 @@
                                     <th class="py-3 px-6 text-center">Actions</th>
                                 </tr>
                                 </thead>
+
                                 <tbody class="text-gray-600 text-sm font-light">
                                 @foreach ($repas as $meal)
                                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                                         <td class="py-3 px-6 text-left">{{ $meal->nom }}</td>
                                         <td class="py-3 px-6 text-left">{{ $meal->prix }}$</td>
+
+                                        <!-- Image Responsive -->
                                         <td class="py-3 px-6 text-left">
                                             @if ($meal->image)
-                                                <img src="{{ asset($meal->image) }}" alt="{{ $meal->nom }}" class="img-fluid rounded" style="width: 80px; height: 80px;">
+                                                <img src="{{ asset($meal->image) }}" alt="{{ $meal->nom }}" class="img-fluid rounded" style="width: 80px; height: 80px; object-fit: cover;">
                                             @endif
                                         </td>
-                                        <td class="py-3 px-6 text-left">{{ $meal->categorie }}</td>
-                                        <td class="py-3 px-6 text-center">
-                                            <!-- Bouton Modifier -->
-                                            <a href="{{ route('admin.edit', $meal->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded inline-flex items-center">
-                                                <i class="fas fa-edit fa-2x"></i> Modifier
-                                            </a>
 
-                                            <!-- Formulaire de suppression -->
-                                            <form action="{{ route('admin.destroy', $meal->id) }}" method="POST" class="inline ml-2">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded inline-flex items-center">
-                                                    <i class="fas fa-trash fa-2x"></i> Supprimer
-                                                </button>
-                                            </form>
+                                        <td class="py-3 px-6 text-left">{{ $meal->categorie }}</td>
+
+                                        <!-- Actions Responsive -->
+                                        <td class="py-3 px-6 text-center">
+                                            <div class="flex flex-wrap justify-center gap-2">
+                                                <!-- Bouton Modifier -->
+                                                <a href="{{ route('admin.edit', $meal->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded flex items-center">
+                                                    <i class="fas fa-edit"></i>
+                                                    <span class="ml-1">Modifier</span>
+                                                </a>
+
+                                                <!-- Formulaire de suppression -->
+                                                <form action="{{ route('admin.destroy', $meal->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center">
+                                                        <i class="fas fa-trash"></i>
+                                                        <span class="ml-1">Supprimer</span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
-
                             </table>
                         </div>
+
                     </div>
                 </main>
             </div>
 
             <!-- Footer -->
             <footer class="bg-grey-darkest text-white p-2">
-                <div class="flex flex-1 mx-auto">&copy; Belagor - Tous droits réservés.</div>
+                <div class="flex flex-1 mx-auto">&copy; Belagor 2025 - Tous droits réservés.</div>
             </footer>
         </div>
     </div>

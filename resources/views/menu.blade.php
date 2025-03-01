@@ -24,7 +24,6 @@
     <!-- Bootstrap & Custom CSS -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    @livewireStyles
 
     <style>
         .footer {
@@ -44,6 +43,11 @@
 </head>
 
 <body>
+@if(session('success'))
+    <div class="alert alert-warning text-center" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="container-xxl bg-white p-0">
     <!-- Navbar & Hero -->
     <div class="container-xxl position-relative p-0">
@@ -62,6 +66,7 @@
             </div>
         </div>
     </div>
+    <!-- Affichage du message de succès après une commande -->
 
     <!-- Menu -->
     <div class="container-xxl py-5">
@@ -86,7 +91,7 @@
                         @endforeach
                     </ul>
                 </div>
-        
+
                 <br>
                 <div class="tab-content">
                     @foreach (['Basic', 'Simple', 'Supérieur'] as $categorie)
@@ -95,7 +100,7 @@
                                 @php
                                     $repasFiltres = $repas->where('categorie', $categorie);
                                 @endphp
-            
+
                                 @forelse ($repasFiltres as $meal)
                                     <div class="col-lg-6">
                                         <div class="d-flex align-items-center p-3 border rounded">
@@ -104,26 +109,26 @@
                                                  alt="{{ $meal->nom }}"
                                                  style="width: 80px; height: 80px; cursor: pointer;"
                                                  data-bs-toggle="modal" data-bs-target="#orderModal{{ $meal->id }}">
-            
+
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2 align-items-center">
                                                     <span>{{ $meal->nom }}</span>
                                                     <span class="text-primary d-flex align-items-center">
-                                                            {{ $meal->prix }}$ 
-                                                            <button class="btn btn-primary add-to-cart" 
+                                                            {{ $meal->prix }}$
+                                                            <button class="btn btn-primary add-to-cart"
                                                                     data-id="{{ $meal->id }}">
-                                                                <i class="fas fa-shopping-cart"></i> Ajoutfer au panier
+                                                                <i class="fas fa-shopping-cart"></i> Ajouter au panier
                                                             </button>
-                                                            
+
                                                         </span>
                                                 </h5>
                                             </div>
                                         </div>
                                     </div>
-            
+
                                     <!-- Modal -->
-                                    
-            
+
+
                                 @empty
                                     <p class="text-center text-muted">Aucun repas disponible pour la catégorie "{{ $categorie }}".</p>
                                 @endforelse
@@ -221,7 +226,7 @@
                         this.innerHTML = '<i class="fas fa-shopping-cart"></i> Ajouter au panier';
                     }, 3000);
                 } else {
-                    
+
 
                     this.classList.remove('btn-warning');
                     this.classList.add('btn-success');

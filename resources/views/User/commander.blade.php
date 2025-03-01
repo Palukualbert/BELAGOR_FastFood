@@ -39,7 +39,7 @@
         <input type="hidden" id="repas" name="repas">
         <input type="hidden" id="latitude" name="latitude">
         <input type="hidden" id="longitude" name="longitude">
-    
+
         <div class="container py-5">
             <table class="table text-center">
                 <thead>
@@ -55,7 +55,7 @@
                 <tbody>
                     @foreach($repasPanier as $repas)
                         <tr id="row-{{ $repas->id }}">
-                            <td><img src="{{ asset('images/' . $repas->image) }}" alt="{{ $repas->nom }}" style="width: 60px;"></td>
+                            <td><img src="{{ asset($repas->image) }}" alt="{{ $repas->nom }}" style="width: 60px;"></td>
                             <td>{{ $repas->nom }}</td>
                             <td>{{ $repas->prix }} $</td>
                             <td>
@@ -73,14 +73,23 @@
                     @endforeach
                 </tbody>
             </table>
+            <!-- Ajout des champs téléphone et adresse -->
+            <div class="mb-3">
+                <label for="phone" class="form-label">Numéro de téléphone</label>
+                <input type="text" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="mb-3">
+                <label for="adresse" class="form-label">Adresse de livraison</label>
+                <input type="text" class="form-control" id="adresse" name="adresse" required>
+            </div>
             <div class="text-end">
                 <h4>Total Général: <span id="total-general"></span></h4>
                 <button type="submit" class="btn btn-primary py-3" onclick="preparerCommande()">Valider la Commande</button>
             </div>
         </div>
     </form>
-    
-    
+
+
 </div>
 
 <script>
@@ -129,11 +138,20 @@
             let id = row.id.replace("row-", "");
             let quantite = document.getElementById(`quantite-${id}`).value;
             let prix = document.getElementById(`total-${id}`).getAttribute("data-prix");
-            
+
             repas.push({ id, quantite, prix });
         });
 
         document.getElementById("repas").value = JSON.stringify(repas);
+
+        // Ajout des valeurs phone et adresse
+        let phone = document.getElementById("phone").value;
+        let adresse = document.getElementById("adresse").value;
+
+        if (!phone || !adresse) {
+            alert("Veuillez remplir tous les champs.");
+            return false; // Bloque la soumission du formulaire si vide
+        }
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
