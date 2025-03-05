@@ -23,8 +23,7 @@
                 <div class="p-1 flex flex-row items-center">
                     <a href="{{ route('signin') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-3">
                         <i class="fas fa-sign-out-alt"></i> Se déconnecter
-                    </a>
-                </div>
+                    </a>                    </div>
             </div>
         </header>
 
@@ -58,6 +57,18 @@
                             {{ session('success') }}
                         </div>
                     @endif
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <input type="text" id="searchInput" placeholder="Rechercher par client, adresse, statut..."
+                               class="border border-gray-300 rounded px-3 py-2 flex-grow min-w-[200px]">
+
+                        <input type="date" id="searchDate" class="border border-gray-300 rounded px-3 py-2 flex-grow min-w-[200px]">
+
+                        <button id="searchButton" class="bg-blue-500 text-white px-4 py-2 rounded">
+                            <i class="fas fa-search"></i> Rechercher
+                        </button>
+                    </div>
+
+
 
                     <div class="overflow-x-auto mt-4">
                         <table class="table-auto w-full bg-white shadow-md rounded-lg">
@@ -71,6 +82,8 @@
                                 <th class="py-3 px-6 text-center">Montant Total</th>
                                 <th class="py-3 px-6 text-center">Statut</th>
                                 <th class="py-3 px-6 text-center">Date</th>
+                                <th class="py-3 px-6 text-center">Localisation</th>
+
                             </tr>
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light">
@@ -101,6 +114,15 @@
                                     </td>
                                     <td class="py-3 px-6 text-center text-blue-600 font-semibold bg-gray-100 rounded-lg">
                                         {{ $commande->created_at->format('d/m/Y H\hi') }}
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        @if($commande->latitude && $commande->longitude)
+                                            <a href="https://www.google.com/maps?q={{ $commande->latitude }},{{ $commande->longitude }}" target="_blank" class="text-blue-600 underline">
+                                                📍 Voir sur la carte
+                                            </a>
+                                        @else
+                                            <span class="text-gray-500">Non disponible</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -134,7 +156,7 @@
                         _token: "{{ csrf_token() }}",
                         status: newStatus
                     },
-                    success: function (response) {
+                    success: function () {
                         alert('✅ Statut mis à jour avec succès !');
                     },
                     error: function (xhr) {
@@ -143,6 +165,54 @@
                     }
                 });
             });
+
+            function filterTable() {
+                var searchValue = $("#searchInput").val().toLowerCase();
+                var selectedDate = $("#searchDate").val(); // Format YYYY-MM-DD
+
+                $("tbody tr").each(function () {
+                    var row = $(this);
+                    var repasMatch = false;
+                    var dateMatch = false;
+                    var textMatch = false;
+
+                    // Vérification des repas (5ème colonne)
+                    row.find("td:nth-child(5) li").each(function () {
+                        if ($(this).text().toLowerCase().includes(searchValue)) {
+                            repasMatch = true;
+                        }
+                    });
+
+                    // Vérification du texte dans Client, Téléphone, Adresse, Statut
+                    if (
+                        row.find("td:nth-child(2)").text().toLowerCase().includes(searchValue) || // Client
+                        row.find("td:nth-child(3)").text().toLowerCase().includes(searchValue) || // Téléphone
+                        row.find("td:nth-child(4)").text().toLowerCase().includes(searchValue) || // Adresse
+                        repasMatch || // Repas
+                        row.find("td:nth-child(7) select").val().toLowerCase().includes(searchValue) // Statut
+                    ) {
+                        textMatch = true;
+                    }
+
+                    // Vérification de la date (8ème colonne)
+                    var rowDate = row.find("td:nth-child(8)").text().trim().split(" ")[0]; // Format d/m/Y
+                    var dateParts = rowDate.split("/");
+                    var formattedRowDate = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0]; // Converti en YYYY-MM-DD
+
+                    if (!selectedDate || selectedDate === formattedRowDate) {
+                        dateMatch = true;
+                    }
+
+                    // Affichage si un des critères correspond
+                    row.toggle(textMatch && dateMatch);
+                });
+            }
+
+            // Appliquer la recherche quand le bouton est cliqué
+            $("#searchButton").on("click", filterTable);
         });
+
     </script>
+
+
 @endsection

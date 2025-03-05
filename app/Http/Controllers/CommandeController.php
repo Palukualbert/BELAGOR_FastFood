@@ -72,8 +72,9 @@ class CommandeController extends Controller
             'status' => 'en_attente',
             'montant_total' => $montantTotal,
             'repas' => json_encode($repasCommandes),
-            'latitude' => $request->latitude ?? '5.336556',
-            'longitude' => $request->longitude ?? '-4.030769',
+            'latitude' => $request->latitude ?? '-11.6590',
+            'longitude' => $request->longitude ?? '27.4794',
+
             'adresse' => $request->adresse,
             'phone' => $request->phone,
         ]);

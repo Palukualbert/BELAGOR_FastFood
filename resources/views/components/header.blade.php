@@ -21,7 +21,6 @@
             <div class="nav-item dropdown">
                 <a href="" class="dropdown-toggle nav-link ">Mon compte</a>
                 <div class="dropdown-menu m-0">
-                        <a href="#" class="dropdown-item">Tableau de bord</a>
                         <a href="{{route('logout')}}" class="dropdown-item">Deconnexion</a>
                     </div>
             </div>

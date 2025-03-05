@@ -63,6 +63,8 @@ Route::prefix('admin')->group(function(){
     Route::put('/{repas}', [\App\Http\Controllers\RepasController::class, 'update'])->name('admin.update');
     Route::get('/commandes', [\App\Http\Controllers\CommandeController::class, 'index'])->name('admin.commandes');
     Route::post('/commandes/{id}/update-status', [CommandeController::class, 'updateStatus'])->name('commandes.updateStatus');
+    Route::get('/admin/commandes-par-date', [AdminController::class, 'commandesParDate'])->name('commandes.par.date');
+
 });
 
 

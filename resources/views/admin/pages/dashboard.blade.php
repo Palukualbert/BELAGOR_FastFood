@@ -35,7 +35,7 @@
 
             <div class="flex flex-1">
                 <!--Sidebar-->
-                <aside id="sidebar" class="bg-side-nav w-1/2 md:w-1/6 lg:w-1/6 border-r border-side-nav hidden md:block lg:block">
+                <aside id="sidebar" class="bg-side-nav w-3/4 md:w-1/4 lg:w-1/6 border-r border-side-nav hidden md:block lg:block">
 
                     <ul class="list-reset flex flex-col">
                         <li class=" w-full h-full py-3 px-2 border-b border-light-border bg-white">
@@ -51,12 +51,69 @@
                             </a>
                         </li>
                         </li>
-                </aside>                <!--/Sidebar-->
+                </aside>
+                <!--/Sidebar-->
                 <!--Main-->
                 <!-- Main Content -->
                 <main class="bg-white-300 flex-1 p-3 overflow-hidden">
                     <div class="container mx-auto">
                         <h2 class="text-2xl font-bold mb-4 text-center">Gestion des repas</h2>
+                        <div class="flex justify-between items-center bg-white p-4 rounded-lg shadow-md mb-6">
+                            <!-- Sélecteur de Date -->
+                            <div class="flex items-center space-x-3">
+                                <label for="dateCommandes" class="font-semibold text-gray-700">Choisir une date :</label>
+                                <input type="date" id="dateCommandes" class="border border-gray-300 px-3 py-1 rounded">
+                            </div>
+                        </div>
+
+                        <!-- Statistiques -->
+                        <div class="row g-4 mb-6">
+                            <!-- Commandes Aujourd'hui -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="bg-blue-500 text-white p-4 rounded-lg d-flex align-items-center">
+                                    <i class="fas fa-calendar-day text-xl sm:text-lg mr-3 w-10 h-10 sm:w-8 sm:h-8 d-flex align-items-center justify-content-center"></i>
+                                    <div>
+                                        <h3 class="text-xs font-semibold">Commandes (Date choisie)</h3>
+                                        <p class="text-base font-bold" id="commandesAujourdhui">{{ $commandesAujourdhui }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Total des Commandes -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="bg-green-500 text-white p-4 rounded-lg d-flex align-items-center">
+                                    <i class="fas fa-list-alt text-xl sm:text-lg mr-3 w-10 h-10 sm:w-8 sm:h-8 d-flex align-items-center justify-content-center"></i>
+                                    <div>
+                                        <h3 class="text-xs font-semibold">Total Commandes</h3>
+                                        <p class="text-base font-bold">{{ $totalCommandes }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Total des Repas -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="bg-yellow-500 text-white p-4 rounded-lg d-flex align-items-center">
+                                    <i class="fas fa-utensils text-xl sm:text-lg mr-3 w-10 h-10 sm:w-8 sm:h-8 d-flex align-items-center justify-content-center"></i>
+                                    <div>
+                                        <h3 class="text-xs font-semibold">Total Repas</h3>
+                                        <p class="text-base font-bold">{{ $totalRepas }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Total des Clients -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="bg-red-500 text-white p-4 rounded-lg d-flex align-items-center">
+                                    <i class="fas fa-users text-xl sm:text-lg mr-3 w-10 h-10 sm:w-8 sm:h-8 d-flex align-items-center justify-content-center"></i>
+                                    <div>
+                                        <h3 class="text-xs font-semibold">Total Clients</h3>
+                                        <p class="text-base font-bold">{{ $totalClients }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
 
                         <a href="{{ route('admin.add') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-3">
                             <i class="fas fa-plus"></i> Ajouter un repas
@@ -67,12 +124,17 @@
                                 {{ session('success') }}
                             </div>
                         @endif
+                        <!-- Barre de recherche -->
+                        <div class="flex flex-col md:flex-row gap-4 mb-4">
+                            <input type="text" id="searchInput" placeholder="Rechercher un repas..."
+                                   class="border border-gray-300 rounded px-3 py-2 flex-grow min-w-[200px]">
+                        </div>
 
                         <div class="overflow-x-auto mt-4">
                             <table class="table-auto w-full bg-white shadow-md rounded-lg">
                                 <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <tr>
-                                    <th class="py-3 px-6 text-left">Nom</th>
+                                    <th class="py-3 px-6 text-left">Nom plat</th>
                                     <th class="py-3 px-6 text-left">Prix</th>
                                     <th class="py-3 px-6 text-left">Image</th>
                                     <th class="py-3 px-6 text-left">Catégorie</th>
@@ -134,6 +196,35 @@
 @endsection
 
 @section('scripts')
+    <script>
+        document.getElementById('dateCommandes').addEventListener('change', function () {
+            let date = this.value;
+            fetch("{{ route('commandes.par.date') }}?date=" + date) // Utilise la route nommée
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('commandesAujourdhui').textContent = data.commandes;
+                })
+                .catch(error => console.error('Erreur lors de la récupération des commandes:', error));
+        });
+    </script>
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function () {
+            var searchValue = this.value.toLowerCase();
+            var rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                var name = row.cells[0].textContent.toLowerCase(); // Nom du repas
+                var price = row.cells[1].textContent.toLowerCase(); // Prix
+                var category = row.cells[3].textContent.toLowerCase(); // Catégorie
+
+                if (name.includes(searchValue) || price.includes(searchValue) || category.includes(searchValue)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    </script>
     <script src="{{asset('admin/main.js')}}"></script>
 @endsection
 
