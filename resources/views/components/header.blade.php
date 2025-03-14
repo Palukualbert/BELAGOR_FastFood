@@ -11,8 +11,6 @@
             <a href="{{route("about")}}" class="nav-item nav-link {{ Route::currentRouteName() === 'about' ? 'active' : ''}} ">A propos</a>
             <a href="{{route("service")}}" class="nav-item nav-link {{ Route::currentRouteName() === 'service' ? 'active' : '' }}">Service</a>
             <a href="{{route("menu")}}" class="nav-item nav-link {{ Route::currentRouteName() === 'menu' ? 'active' : '' }}">Menu</a>
-
-            <a href="{{route("contact")}}" class="nav-item nav-link">Contact</a>
             @guest()
                 <a href="{{route('signin')}}" class="nav-item nav-link {{ Route::currentRouteName() === 'connexion' ? 'active' : '' }}">Connexion</a>
             @endguest

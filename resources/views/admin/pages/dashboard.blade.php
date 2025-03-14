@@ -7,6 +7,11 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 @endsection
@@ -17,97 +22,71 @@
         <!--Screen-->
         <div class="min-h-screen flex flex-col">
             <!--Header Section Starts Here-->
-            <header class="bg-nav">
-                <div class="flex justify-between">
-                    <div class="p-1 mx-3 inline-flex items-center">
-                        <i class="fas fa-bars pr-2 text-white" onclick="sidebarToggle()"></i>
-                        <a href="" class="navbar-brand p-0">
-                            <img class="rounded-circle" src="../img/LOGO_belegor.png" alt="Logo" width="10%">
-                        </a>
-                    </div>
-                    <div class="p-1 flex flex-row items-center">
-                        <a href="{{ route('signin') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-3">
-                            <i class="fas fa-sign-out-alt"></i> Se déconnecter
-                        </a>                    </div>
-                </div>
-            </header>
+            @include('admin.components.header')
             <!--/Header-->
 
             <div class="flex flex-1">
                 <!--Sidebar-->
-                <aside id="sidebar" class="bg-side-nav w-3/4 md:w-1/4 lg:w-1/6 border-r border-side-nav hidden md:block lg:block">
+                @include('admin.components.aside')
 
-                    <ul class="list-reset flex flex-col">
-                        <li class=" w-full h-full py-3 px-2 border-b border-light-border bg-white">
-                            <a href=""
-                               class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                                <i class="fas fa-tachometer-alt float-left mx-2"></i>
-                                Dashboard
-                                <span><i class="fas fa-angle-right float-right"></i></span>
-                            </a>
-                        <li class="py-3 px-4 border-b hover:bg-gray-200">
-                            <a href="/admin/commandes" class="flex items-center text-gray-700">
-                                <i class="fas fa-table mr-3"></i> Commandes
-                            </a>
-                        </li>
-                        </li>
-                </aside>
+
                 <!--/Sidebar-->
                 <!--Main-->
                 <!-- Main Content -->
                 <main class="bg-white-300 flex-1 p-3 overflow-hidden">
                     <div class="container mx-auto">
-                        <h2 class="text-2xl font-bold mb-4 text-center">Gestion des repas</h2>
+                        <h2 class="text-2xl font-bold mb-5 text-center">Gestion des repas</h2>
+                        <!--
                         <div class="flex justify-between items-center bg-white p-4 rounded-lg shadow-md mb-6">
-                            <!-- Sélecteur de Date -->
+                            <!-- Sélecteur de Date
                             <div class="flex items-center space-x-3">
-                                <label for="dateCommandes" class="font-semibold text-gray-700">Choisir une date :</label>
+                                <label for="dateCommandes" class="block text-lg font-semibold text-gray-700 mb-2">Choisir une date :</label>
                                 <input type="date" id="dateCommandes" class="border border-gray-300 px-3 py-1 rounded">
                             </div>
                         </div>
+                        -->
 
                         <!-- Statistiques -->
                         <div class="row g-4 mb-6">
                             <!-- Commandes Aujourd'hui -->
                             <div class="col-12 col-sm-6 col-lg-3">
-                                <div class="bg-blue-500 text-white p-4 rounded-lg d-flex align-items-center">
-                                    <i class="fas fa-calendar-day text-xl sm:text-lg mr-3 w-10 h-10 sm:w-8 sm:h-8 d-flex align-items-center justify-content-center"></i>
-                                    <div>
-                                        <h3 class="text-xs font-semibold">Commandes (Date choisie)</h3>
-                                        <p class="text-base font-bold" id="commandesAujourdhui">{{ $commandesAujourdhui }}</p>
+                                <div class="bg-blue-500 text-white flex flex-col items-center p-4 rounded-lg">
+                                    <h3 class="text-xl font-bold text-center text-white">Commandes(date)</h3>
+                                    <div class="flex items-center justify-center space-x-3">
+                                        <p class="text-3xl font-bold" id="commandesAujourdhui">{{ $commandesAujourdhui }}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Total des Commandes -->
                             <div class="col-12 col-sm-6 col-lg-3">
-                                <div class="bg-green-500 text-white p-4 rounded-lg d-flex align-items-center">
-                                    <i class="fas fa-list-alt text-xl sm:text-lg mr-3 w-10 h-10 sm:w-8 sm:h-8 d-flex align-items-center justify-content-center"></i>
-                                    <div>
-                                        <h3 class="text-xs font-semibold">Total Commandes</h3>
-                                        <p class="text-base font-bold">{{ $totalCommandes }}</p>
+                                <div class="bg-green-500 text-white flex flex-col items-center p-4 rounded-lg">
+                                    <h3 class="text-xl font-bold text-center text-white">Total Commandes</h3>
+                                    <div class="flex items-center justify-center space-x-3">
+                                        <p class="text-3xl font-bold">{{ $totalCommandes }}</p>
                                     </div>
                                 </div>
                             </div>
 
+
                             <!-- Total des Repas -->
+
                             <div class="col-12 col-sm-6 col-lg-3">
-                                <div class="bg-yellow-500 text-white p-4 rounded-lg d-flex align-items-center">
-                                    <i class="fas fa-utensils text-xl sm:text-lg mr-3 w-10 h-10 sm:w-8 sm:h-8 d-flex align-items-center justify-content-center"></i>
-                                    <div>
-                                        <h3 class="text-xs font-semibold">Total Repas</h3>
-                                        <p class="text-base font-bold">{{ $totalRepas }}</p>
+                                <div class="bg-yellow-500 text-white flex flex-col items-center p-4 rounded-lg">
+                                    <h3 class="text-xl font-bold text-center text-white">Total Repas</h3>
+                                    <div class="flex items-center justify-center space-x-3">
+                                        <p class="text-3xl font-bold">{{ $totalRepas }}</p>
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- Total des Clients -->
                             <div class="col-12 col-sm-6 col-lg-3">
-                                <div class="bg-red-500 text-white p-4 rounded-lg d-flex align-items-center">
-                                    <i class="fas fa-users text-xl sm:text-lg mr-3 w-10 h-10 sm:w-8 sm:h-8 d-flex align-items-center justify-content-center"></i>
-                                    <div>
-                                        <h3 class="text-xs font-semibold">Total Clients</h3>
-                                        <p class="text-base font-bold">{{ $totalClients }}</p>
+                                <div class="bg-red-500 text-white flex flex-col items-center p-4 rounded-lg">
+                                    <h3 class="text-xl font-bold text-center text-white">Total Clients</h3>
+                                    <div class="flex items-center justify-center space-x-3">
+                                        <p class="text-3xl font-bold">{{ $totalClients }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -115,20 +94,29 @@
 
 
 
-                        <a href="{{ route('admin.add') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-3">
-                            <i class="fas fa-plus"></i> Ajouter un repas
-                        </a>
+
 
                         @if(session('success'))
                             <div class="bg-green-500 text-white p-2 mt-4 text-center">
                                 {{ session('success') }}
                             </div>
                         @endif
-                        <!-- Barre de recherche -->
-                        <div class="flex flex-col md:flex-row gap-4 mb-4">
-                            <input type="text" id="searchInput" placeholder="Rechercher un repas..."
-                                   class="border border-gray-300 rounded px-3 py-2 flex-grow min-w-[200px]">
+
+
+                        <div class="flex justify-between">
+                            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                                <a href="{{ route('admin.add') }}" class="bg-primary flex justify-center align-items-center pl-3 pr-3 rounded-lg text-white ">
+                                    <i class="fas fa-plus pr-2"></i> <span>Ajouter un repas</span>
+                                </a>
+                            </div>
+
+
+                            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                                <input type="text" id="searchInput" placeholder="Rechercher un repas..."
+                                       class="border border-gray-300 rounded px-3 py-2 flex-grow min-w-[200px]">
+                            </div>
                         </div>
+
 
                         <div class="overflow-x-auto mt-4">
                             <table class="table-auto w-full bg-white shadow-md rounded-lg">
@@ -151,9 +139,12 @@
                                         <!-- Image Responsive -->
                                         <td class="py-3 px-6 text-left">
                                             @if ($meal->image)
-                                                <img src="{{ asset($meal->image) }}" alt="{{ $meal->nom }}" class="img-fluid rounded" style="width: 80px; height: 80px; object-fit: cover;">
+                                                <a href="{{ asset($meal->image) }}" target="_blank">
+                                                    <img src="{{ asset($meal->image) }}" alt="{{ $meal->nom }}" class="img-fluid rounded cursor-pointer hover:scale-150 transition-transform duration-300" style="width: 50px; height: 50px; object-fit: cover;">
+                                                </a>
                                             @endif
                                         </td>
+
 
                                         <td class="py-3 px-6 text-left">{{ $meal->categorie }}</td>
 
@@ -161,7 +152,7 @@
                                         <td class="py-3 px-6 text-center">
                                             <div class="flex flex-wrap justify-center gap-2">
                                                 <!-- Bouton Modifier -->
-                                                <a href="{{ route('admin.edit', $meal->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded flex items-center">
+                                                <a href="{{ route('admin.edit', $meal->id) }}" class="bg-primary text-white px-2 py-1 rounded flex items-center">
                                                     <i class="fas fa-edit"></i>
                                                     <span class="ml-1">Modifier</span>
                                                 </a>

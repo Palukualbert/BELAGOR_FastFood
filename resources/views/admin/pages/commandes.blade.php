@@ -1,55 +1,34 @@
 @extends('admin.baseadmin')
 
 @section('links')
-    <link rel="stylesheet" href="{{ asset('admin/dist/styles.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/dist/all.css') }}">
+    <link rel="stylesheet" href="{{asset('admin/dist/styles.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/dist/all.css')}} ">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 @endsection
 
 @section('title', 'Gestion des commandes')
 
 @section('content')
     <div class="min-h-screen flex flex-col">
-        <header class="bg-nav">
-            <div class="flex justify-between">
-                <div class="p-1 mx-3 inline-flex items-center">
-                    <i class="fas fa-bars pr-2 text-white cursor-pointer" id="toggleSidebar"></i>
-                    <a href="" class="navbar-brand p-0">
-                        <img class="rounded-circle" src="../img/LOGO_belegor.png" alt="Logo" width="10%">
-                    </a>
-                </div>
-                <div class="p-1 flex flex-row items-center">
-                    <a href="{{ route('signin') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-3">
-                        <i class="fas fa-sign-out-alt"></i> Se déconnecter
-                    </a>                    </div>
-            </div>
-        </header>
+        @include('admin.components.header')
 
         <div class="flex flex-1">
             <!-- Sidebar affiché par défaut -->
-            <aside id="sidebar" class="bg-side-nav w-1/2 md:w-1/6 lg:w-1/6 border-r border-side-nav">
-                <ul class="list-reset flex flex-col">
-                    <li class="w-full h-full py-3 px-2 border-b border-light-border bg-white">
-                        <a href="/admin/dashboard"
-                           class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
-                            <i class="fas fa-tachometer-alt float-left mx-2"></i>
-                            Dashboard
-                            <span><i class="fas fa-angle-right float-right"></i></span>
-                        </a>
-                    </li>
-                    <li class="py-3 px-4 border-b hover:bg-gray-200">
-                        <a href="" class="flex items-center text-gray-700">
-                            <i class="fas fa-table mr-3"></i> Commandes
-                        </a>
-                    </li>
-                </ul>
-            </aside>
+            @include('admin.components.aside')
 
             <div class="flex flex-col flex-1">
                 <!-- Contenu principal -->
-                <main class="flex-1 mt-16 p-6">
+                <main class="flex-1 p-6">
                     <h2 class="text-2xl font-bold mb-4 text-center">Gestion des Commandes</h2>
 
                     @if(session('success'))
